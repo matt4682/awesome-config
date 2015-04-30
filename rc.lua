@@ -118,67 +118,6 @@ mytextclock = awful.widget.textclock(markup.font("Tamsyn 3", " ") ..
 -- Calendar
 lain.widgets.calendar:attach(mytextclock, { fg = beautiful.fg_focus })
 
---[[ Mail IMAP check
--- commented because it needs to be set before use
-mailwidget = lain.widgets.imap({
-    timeout  = 180,
-    server   = "server",
-    mail     = "mail",
-    password = "keyring get mail",
-    settings = function()
-        mail_notification_preset.fg = white
-
-        mail  = ""
-        count = ""
-
-        if mailcount > 0 then
-            mail = "Mail "
-            count = mailcount .. " "
-        end
-
-        widget:set_markup(markup(gray, mail) .. markup(white, count))
-    end
-})
-]]
-
--- MPD
-mpdwidget = lain.widgets.mpd({
-    settings = function()
-        mpd_notification_preset.fg = white
-
-        artist = mpd_now.artist .. " "
-        title  = mpd_now.title  .. " "
-
-        if mpd_now.state == "pause" then
-            artist = "mpd "
-            title  = "paused "
-        elseif mpd_now.state == "stop" then
-            artist = ""
-            title  = ""
-        end
-
-        widget:set_markup(markup(gray, artist) .. markup(white, title))
-    end
-})
-
--- /home fs
-fshome = lain.widgets.fs({
-    partition = "/home",
-    settings  = function()
-        fs_notification_preset.fg = white
-
-        hdd = ""
-        p   = ""
-
-        if fs_now.used >= 90 then
-            hdd = " Hdd "
-            p   = fs_now.used .. " "
-        end
-
-        widget:set_markup(markup(gray, hdd) .. markup(white, p))
-    end
-})
-
 -- ALSA volume bar
 volume = lain.widgets.alsabar({ card = "0", ticks = true })
 volmargin = wibox.layout.margin(volume.bar, 5, 8, 80)
@@ -287,7 +226,6 @@ for s = 1, screen.count() do
     left_layout:add(small_spr)
     left_layout:add(mytaglist[s])
     left_layout:add(spr)
---    left_layout:add(txtlayoutbox[s])
     left_layout:add(spr)
     left_layout:add(mypromptbox[s])
 
@@ -295,9 +233,6 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(small_spr)
-    --right_layout:add(mpdwidget)
-    --right_layout:add(mailwidget)
-    --right_layout:add(fshome)
     right_layout:add(med_spr)
     right_layout:add(volumewidget)
     right_layout:add(mytextclock)
@@ -417,7 +352,6 @@ globalkeys = awful.util.table.join(
 
     -- Widgets popups
     awful.key({ altkey,           }, "c",      function () lain.widgets.calendar:show(7) end),
-    awful.key({ altkey,           }, "h",      function () fshome.show(7) end),
     awful.key({ altkey,           }, "w",      function () yawn.show(7) end),
 
     -- ALSA volume control
