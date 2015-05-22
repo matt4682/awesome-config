@@ -52,6 +52,7 @@ run_once("unclutter -root")
 run_once("dhcpcd")
 run_once("VBoxClient-all")
 run_once("feh --bg-scale ~/.wallpapers/wp.jpg")
+run_once("xrandr --dpi 96")
 
 -- }}}
 
